@@ -173,6 +173,9 @@ end
 ---   Similar, for input line 5 inner scope will be returned if it is
 ---   recognized as border.
 MiniIndentscope.config = {
+  -- Filetypes to exclude
+  filetype_exclude = {},
+
   -- Draw options
   draw = {
     -- Delay (in ms) between event and start of drawing scope indicator
@@ -938,7 +941,7 @@ H.make_draw_function = function(indicator, opts)
     if H.current.event_id ~= current_event_id and current_event_id ~= nil then return false end
 
     -- Don't draw if disabled
-    if H.is_disabled() then return false end
+    if H.is_disabled() or vim.tbl_contains(MiniIndentscope.config.filetype_exclude, vim.bo.ft) then return false end
 
     -- Don't put extmark outside of indicator range
     if not (indicator.top <= l and l <= indicator.bottom) then return true end
